@@ -13,6 +13,9 @@ if __name__ == '__main__':
         if mode == '0':
             modePub.publish(0)
             rospy.loginfo('Mode set to passive')
+        elif mode == '1':
+            modePub.publish(1)
+            rospy.loginfo('Mode set to velocity')
         elif mode == '2':
             modePub.publish(2)
             rospy.loginfo('Mode set to position')

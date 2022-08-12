@@ -1,0 +1,16 @@
+{
+    "x_client":{
+        "velocity": 100,
+        "acceleration": 27100,
+        "home_position": 0
+    },
+    "y_client":{
+        "velocity": 100,
+        "acceleration": 0,
+        "home_position": 0
+    },
+    "z_client":{
+        "velocity": 100,
+        "acceleration": 0
+    }
+}

@@ -8,10 +8,10 @@ import json
 
 moveSpeed = 1 #unit/s
 screwTime = 1 #second
-zThreshold = 15
+zThreshold = 1000000
 
 X_FACTOR = 54000/365
-Y_FACTOR = 84000/360
+Y_FACTOR = 84000/242
 
 def StopAndMove():
     # xs, ys, zs = generate3DPoints([0, 0, 0], 10, zThreshold)
@@ -40,7 +40,7 @@ def StopAndMove():
 
     print(pathX)
 
-    return [xs[i] for i in path]
+    return pathX, pathY, pathZ
     # print(pathY)
     # print(pathZ)
     # distance = calculateDistance(pathX, pathY, pathZ)

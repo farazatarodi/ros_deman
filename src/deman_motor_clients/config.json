@@ -1,17 +1,22 @@
 {
     "x_client":{
-        "velocity": 30,
+        "velocity": 80,
         "acceleration": 27100,
         "home_position": 0
     },
     "y_client":{
         "velocity": 100,
-        "acceleration": 0,
+        "acceleration": 27100,
         "home_position": 0
     },
     "z_client":{
-        "velocity": 100,
-        "acceleration": 0,
-        "home_position": 1000000
-    }
+        "velocity": 200,
+        "acceleration": 54200,
+        "home_position": 0
+    },
+    "c_client":{
+        "velocity": 200,
+        "acceleration": 27100,
+        "home_position": 0
+    }    
 }

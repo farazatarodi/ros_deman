@@ -57,6 +57,7 @@ if __name__ == '__main__':
             pubStatus.publish(binaryStatus)
             response = client.read_holding_registers(20, 2, unit=1)
             actualPosition = response.registers[1]*0x10000+response.registers[0]
+            actualPosition = actualPosition - 0x100000000 if actualPosition & 0x80000000 else actualPosition
             pubActualPosition.publish(actualPosition)
             rate.sleep()
 

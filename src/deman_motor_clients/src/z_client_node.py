@@ -11,6 +11,8 @@ ACCELERATION_CONSTANT = 271
 
 def mode_callback(mode: Int16):
     client.write_registers(4, [mode.data, 0], unit=1)
+    high, low = divmod(int(hex(config['home_position']), 16), 0x10000)
+    client.write_registers(6, [low,high], unit=1)
 
 def position_callback(position: Int32):
     highPose, lowPose = divmod(int(hex(position.data), 16), 0x10000)
@@ -35,8 +37,6 @@ if __name__ == '__main__':
         result = client.read_holding_registers(10, 2, unit=1)
         rospy.loginfo('Velocity: ' + str(result.registers[0]))
 
-        high, low = divmod(int(hex(config['home_position']), 16), 0x10000)
-        client.write_registers(6, [low,high], unit=1)
         result = client.read_holding_registers(6, 2, unit=1)
         rospy.loginfo('Home position: ' + str(result.registers))
 
@@ -58,6 +58,7 @@ if __name__ == '__main__':
             response = client.read_holding_registers(20, 2, unit=1)
             actualPosition = response.registers[1]*0x10000+response.registers[0]
             pubActualPosition.publish(actualPosition)
+            # rospy.loginfo(actualPosition)
             rate.sleep()
 
         rospy.spin()

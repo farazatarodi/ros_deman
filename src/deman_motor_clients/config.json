@@ -17,6 +17,6 @@
     "c_client":{
         "velocity": 200,
         "acceleration": 27100,
-        "home_position": 0
+        "home_position": -11000000
     }    
 }

@@ -14,14 +14,16 @@ def next_point():
     global positionCounter
     global positionBits
 
-    rospy.loginfo(positionBits)
     if positionBits == [True, True, True]:
         if positionCounter < len(pathX)-1:
             positionCounter+=1
             rospy.loginfo(positionCounter)
+            rospy.loginfo(positionBits)
+            positionBits[False, False, False]
+            
 
-    pubXPosition.publish(pathX[positionCounter])
-    pubCPosition.publish(pathY[positionCounter])
+    pubCPosition.publish(pathX[positionCounter])
+    pubYPosition.publish(pathY[positionCounter])
     pubZPosition.publish(pathZ[positionCounter])
 
 def next_point_x(msg: Int32):
@@ -60,11 +62,11 @@ def next_point_z(msg: Int32):
 def next_point_c(msg: Int32):
     actualPosition = msg.data
     global positionBits
-    global pathY
+    global pathX
     global positionCounter
 
-    if actualPosition >= pathY[positionCounter] - 200 and actualPosition <= pathY[positionCounter] + 200:
-        positionBits[1] = True
+    if actualPosition >= pathX[positionCounter] - 5000 and actualPosition <= pathX[positionCounter] + 5000:
+        positionBits[0] = True
         next_point()
 
 
@@ -79,18 +81,18 @@ if __name__ == '__main__':
     print(pathY)
     print(pathZ)
     
-    pubXPosition = rospy.Publisher('/x_client/position', Int32, queue_size=10)
+    # pubXPosition = rospy.Publisher('/x_client/position', Int32, queue_size=10)
     pubYPosition = rospy.Publisher('/y_client/position', Int32, queue_size=10)
     pubZPosition = rospy.Publisher('/z_client/position', Int32, queue_size=10)
     pubCPosition = rospy.Publisher('/c_client/position', Int32, queue_size=10)
     # subXStatus = rospy.Subscriber('/x_client/status', String, callback=next_point)
-    subXActualPosition = rospy.Subscriber('/x_client/actual_position', Int32, callback=next_point_x)
+    # subXActualPosition = rospy.Subscriber('/x_client/actual_position', Int32, callback=next_point_x)
     subYActualPosition = rospy.Subscriber('/y_client/actual_position', Int32, callback=next_point_y)
     subZActualPosition = rospy.Subscriber('/z_client/actual_position', Int32, callback=next_point_z)
     subCActualPosition = rospy.Subscriber('/c_client/actual_position', Int32, callback=next_point_c)
 
-    pubXPosition.publish(pathX[0])
-    pubCPosition.publish(pathY[0])
+    pubCPosition.publish(pathX[0])
+    pubYPosition.publish(pathY[0])
     pubZPosition.publish(pathZ[0])
 
     rospy.spin()

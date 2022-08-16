@@ -11,6 +11,9 @@ ACCELERATION_CONSTANT = 271
 
 def mode_callback(mode: Int16):
     client.write_registers(4, [mode.data, 0], unit=1)
+    unsignedPosition = config['home_position'] + 2**32
+    high, low = divmod(int(hex(unsignedPosition), 16), 0x10000)
+    client.write_registers(6, [low,high], unit=1)
 
 def position_callback(position: Int32):
     highPose, lowPose = divmod(int(hex(position.data), 16), 0x10000)
@@ -22,7 +25,7 @@ if __name__ == '__main__':
     client = ModbusTcpClient('192.168.11.5', 502)
     connection = client.connect()
     if (connection):
-        rospy.loginfo('Connected to C motor on 192.168.11.:502')
+        rospy.loginfo('Connected to C motor on 192.168.11.5:502')
 
         configFile = open('src/deman_motor_clients/config.json')
         configData = json.load(configFile)
@@ -35,8 +38,6 @@ if __name__ == '__main__':
         result = client.read_holding_registers(10, 2, unit=1)
         rospy.loginfo('Velocity: ' + str(result.registers[0]))
 
-        high, low = divmod(int(hex(config['home_position']), 16), 0x10000)
-        client.write_registers(6, [low,high], unit=1)
         result = client.read_holding_registers(6, 2, unit=1)
         rospy.loginfo('Home position: ' + str(result.registers))
 
@@ -48,7 +49,7 @@ if __name__ == '__main__':
         subPosition = rospy.Subscriber('/c_client/position', Int32, callback=position_callback)
         pubStatus = rospy.Publisher('/c_client/status', String, queue_size=10)
         pubActualPosition = rospy.Publisher('/c_client/actual_position', Int32, queue_size=10)
-        rate = rospy.Rate(20)
+        rate = rospy.Rate(2)
         
         while not rospy.is_shutdown():
             response = client.read_holding_registers(70, 2, unit=1)
@@ -57,7 +58,10 @@ if __name__ == '__main__':
             pubStatus.publish(binaryStatus)
             response = client.read_holding_registers(20, 2, unit=1)
             actualPosition = response.registers[1]*0x10000+response.registers[0]
-            pubActualPosition.publish(actualPosition)
+            if actualPosition > 2**16:
+                actualPosition = actualPosition-2**32
+            # pubActualPosition.publish(actualPosition)
+            rospy.loginfo(actualPosition)
             rate.sleep()
 
         rospy.spin()

@@ -7,8 +7,7 @@ from std_msgs.msg import Int32, String
 from stop_and_move import StopAndMove
 
 positionCounter = 0
-positionBits = [False, False, False]
-start = False
+positionBits = [False, False, False, False]
 
 def next_point():
     global pathX
@@ -16,26 +15,25 @@ def next_point():
     global pathZ
     global positionCounter
     global positionBits
-    global start
 
-    if positionBits == [True, True, True]:
+    if positionBits == [True, True, True, True]:
         if positionCounter < len(pathX)-1:
             positionCounter+=1
             rospy.loginfo(positionCounter)
             rospy.loginfo(positionBits)
-            positionBits=[False, False, False]
+            positionBits=[False, False, False, False]
             
-    if not start:
-        pubXPosition.publish(pathX[positionCounter])
-        pubYPosition.publish(pathY[positionCounter])
-        pubZPosition.publish(pathZ[positionCounter])
+    pubXPosition.publish(pathX[positionCounter])
+    pubYPosition.publish(pathY[positionCounter])
+    pubZPosition.publish(pathZ[positionCounter])
+    pubCPosition.publish(pathC[positionCounter])
 
 def next_point_x(msg: Int32):
     actualPosition = msg.data
     global positionBits
     global pathX
     global positionCounter
-
+    
     if actualPosition >= pathX[positionCounter] - 150 and actualPosition <= pathX[positionCounter] + 150:
         positionBits[0] = True
         next_point()
@@ -63,32 +61,21 @@ def next_point_z(msg: Int32):
         next_point()
 
 
-def c_move(msg: Int32):
+def next_point_c(msg: Int32):
     actualPosition = msg.data
     global positionBits
-    global pathX
-    global pathY
-    global pathZ
+    global pathC
     global positionCounter
-    global start
 
-    if actualPosition == -11000000 and not start:
-        pubXPosition.publish(pathX[0])
-        pubYPosition.publish(pathY[0])
-        pubZPosition.publish(pathZ[0])
-        start = True
+    if actualPosition >= pathC[positionCounter] - 200 and actualPosition <= pathC[positionCounter] + 200:
+        positionBits[3] = True
+        next_point()
 
 
 if __name__ == '__main__':
     rospy.init_node('tsp_node')
 
-    pathX, pathY, pathZ = StopAndMove()
-    pathX.insert(0,0)
-    pathY.insert(0,0)
-    pathZ.insert(0,0)
-    print(pathX)
-    print(pathY)
-    print(pathZ)
+    pathX, pathY, pathZ, pathC = StopAndMove()
     
     pubXPosition = rospy.Publisher('/x_client/position', Int32, queue_size=10)
     pubYPosition = rospy.Publisher('/y_client/position', Int32, queue_size=10)
@@ -98,6 +85,6 @@ if __name__ == '__main__':
     subXActualPosition = rospy.Subscriber('/x_client/actual_position', Int32, callback=next_point_x)
     subYActualPosition = rospy.Subscriber('/y_client/actual_position', Int32, callback=next_point_y)
     subZActualPosition = rospy.Subscriber('/z_client/actual_position', Int32, callback=next_point_z)
-    subCActualPosition = rospy.Subscriber('/c_client/actual_position', Int32, callback=c_move)
+    subCActualPosition = rospy.Subscriber('/c_client/actual_position', Int32, callback=next_point_c)
 
     rospy.spin()

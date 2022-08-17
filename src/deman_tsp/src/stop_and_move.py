@@ -14,17 +14,18 @@ X_FACTOR = 54000/365
 Y_FACTOR = 84000/242
 
 def StopAndMove():
-    # xs, ys, zs = generate3DPoints([0, 0, 0], 10, zThreshold)
     coordinatesFile = open('src/deman_tsp/laptop data/3.json')
     coordinatesData = json.load(coordinatesFile)
 
-    xs = []
-    ys = []
-    zs = []
+    xs = [0]
+    ys = [0]
+    zs = [0]
+    cs = [-11000000]
     for point in coordinatesData:
         xs.append(math.floor(point[0]*X_FACTOR))
         ys.append(math.floor(point[1]*Y_FACTOR))
         zs.append(0)
+        cs.append(-11000000)
 
 
     solver = TSPSolver.from_data(xs, ys, 'EUC_2D')
@@ -34,15 +35,7 @@ def StopAndMove():
     print('X: ', xs)
     print('Y: ', ys)
     print('Z: ', zs)
+    print('C: ', cs)
     print('Path: ', path)
 
-    pathX, pathY, pathZ = draw3DPath(xs, ys, zs, zThreshold, path)
-
-    print(pathX)
-
-    return pathX, pathY, pathZ
-    # print(pathY)
-    # print(pathZ)
-    # distance = calculateDistance(pathX, pathY, pathZ)
-    # print('Total distance:', distance)
-    # print('Total time:', distance/moveSpeed + 10*screwTime , 'seconds')
+    return draw3DPath(xs, ys, zs, cs, zThreshold, path)

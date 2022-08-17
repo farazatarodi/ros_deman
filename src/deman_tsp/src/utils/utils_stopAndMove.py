@@ -2,10 +2,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 
-def draw3DPath(xs, ys, zs, z_limit, path):
+def draw3DPath(xs, ys, zs, cs, z_limit, path):
     pathX = []
     pathY = []
     pathZ = []
+    pathC = []
 
     fig = plt.figure()
 
@@ -19,6 +20,7 @@ def draw3DPath(xs, ys, zs, z_limit, path):
             for j in range(2):
                 pathX.append(xs[i])
                 pathY.append(ys[i])
+                pathC.append(cs[i])
 
             pathZ.append(zs[i])
             pathZ.append(z_limit)
@@ -27,6 +29,7 @@ def draw3DPath(xs, ys, zs, z_limit, path):
             for j in range(2):
                 pathX.append(xs[i])
                 pathY.append(ys[i])
+                pathC.append(cs[i])
 
             pathZ.append(z_limit)
             pathZ.append(zs[i])
@@ -35,6 +38,7 @@ def draw3DPath(xs, ys, zs, z_limit, path):
             for j in range(3):
                 pathX.append(xs[i])
                 pathY.append(ys[i])
+                pathC.append(cs[i])
 
             pathZ.append(z_limit)
             pathZ.append(zs[i])
@@ -46,4 +50,4 @@ def draw3DPath(xs, ys, zs, z_limit, path):
 
     # plt.show()
 
-    return pathX, pathY, pathZ
+    return pathX, pathY, pathZ, pathC

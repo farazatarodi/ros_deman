@@ -2,16 +2,14 @@
 
 import math
 from concorde.tsp import TSPSolver
-from utils.utils_common import calculateDistance, generate3DPoints
 from utils.utils_stopAndMove import draw3DPath
 import json
 
-moveSpeed = 1 #unit/s
-screwTime = 1 #second
 zThreshold = 1000000
 
 X_FACTOR = 54000/365
 Y_FACTOR = 84000/242
+
 
 def StopAndMove():
     coordinatesFile = open('src/deman_tsp/laptop data/3.json')
@@ -26,7 +24,6 @@ def StopAndMove():
         ys.append(math.floor(point[1]*Y_FACTOR))
         zs.append(0)
         cs.append(-11000000)
-
 
     solver = TSPSolver.from_data(xs, ys, 'EUC_2D')
     solution = solver.solve()

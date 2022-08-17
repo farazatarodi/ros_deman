@@ -27,6 +27,7 @@ def calculateDistance(x, y, z):
 
     return np.sum(distance)
 
+
 def draw3DPath(coordinates, pathCoordinates, path):
     pathX, pathY, pathZ = pathCoordinates
     x, y, z = coordinates

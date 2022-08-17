@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 
+
 def drawPath(xs, ys, zs, cs, z_limit, path):
     pathX = []
     pathY = []
@@ -15,7 +16,6 @@ def drawPath(xs, ys, zs, cs, z_limit, path):
                 pathX.append(0)
                 pathY.append(ys[i])
                 pathC.append(cs[i])
-
 
             pathZ.append(zs[i])
             pathZ.append(z_limit)
@@ -40,6 +40,7 @@ def drawPath(xs, ys, zs, cs, z_limit, path):
             pathZ.append(z_limit)
 
     return pathX, pathY, pathZ, pathC
+
 
 def generateHeadPath(ys, zs, zThreshold, path):
     pathY = []
@@ -70,12 +71,14 @@ def generateHeadPath(ys, zs, zThreshold, path):
 
     return pathY, pathZ
 
+
 def draw3DPath(coordinates, pathCoordinates, path):
     pathX, pathY, pathZ = pathCoordinates
 
     x, y, z = coordinates
     headX, headY, headZ = x, [0 for i in range(len(x))], z
-    conveyorX, conveyorY, conveyorZ = [0 for i in range(len(y))], y, [0 for i in range(len(y))]
+    conveyorX, conveyorY, conveyorZ = [0 for i in range(len(y))], y, [
+        0 for i in range(len(y))]
 
     fig = plt.figure()
 

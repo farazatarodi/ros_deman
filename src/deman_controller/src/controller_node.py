@@ -7,7 +7,7 @@ if __name__ == '__main__':
     rospy.init_node('controller_node')
 
     modePub = rospy.Publisher('/mode', Int16, queue_size=10)
-    
+
     while not rospy.is_shutdown():
         mode = input('Mode [0 for passive, 2 for position]: ')
         if mode == '0':
@@ -21,4 +21,3 @@ if __name__ == '__main__':
             rospy.loginfo('Mode set to position')
         else:
             rospy.loginfo('Mode not valid')
-

@@ -1,15 +1,15 @@
 import math
-from concorde.tsp import TSPSolver
 from utils.utils_common import calculateDistance, generate3DPoints
 from utils.utils_conveyorForX import drawPath
 import json
 
-headSpeed = 1 #unit/s
-conveyorSpeed = 1 #unit/s
-screwTime = 1 #second
+headSpeed = 1  # unit/s
+conveyorSpeed = 1  # unit/s
+screwTime = 1  # second
 zThreshold = 1000000
 
 Y_FACTOR = 84000/242
+
 
 def ConveyorForX():
     coordinatesFile = open('src/deman_tsp/laptop data/3.json')
@@ -23,7 +23,7 @@ def ConveyorForX():
         ys.append(math.floor(point[1]*Y_FACTOR))
         zs.append(0)
         cs.append(math.floor(point[0]*15810-11000000))
-    
+
     path = list(range(0, len(xs)))
     sortedCs = cs.copy()
     print(path)
@@ -38,7 +38,8 @@ def ConveyorForX():
     print('Z: ', zs)
     print('C: ', cs)
     print('Path: ', path)
-    
+
     return drawPath(xs, ys, zs, cs, zThreshold, path)
+
 
 print(ConveyorForX())

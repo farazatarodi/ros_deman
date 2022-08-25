@@ -12,17 +12,17 @@ Y_FACTOR = 84000/242
 
 
 def StopAndMove():
-    coordinatesFile = open('src/deman_tsp/laptop data/3.json')
+    coordinatesFile = open('src/deman_tsp/laptop data/1.json')
     coordinatesData = json.load(coordinatesFile)
 
     xs = [0]
     ys = [0]
-    zs = [1000000]
+    zs = [0]
     cs = [-11000000]
     for point in coordinatesData:
         xs.append(math.floor(point[0]*X_FACTOR))
         ys.append(math.floor(point[1]*Y_FACTOR))
-        zs.append(point[2])
+        zs.append(0)
         cs.append(-11000000)
 
     solver = TSPSolver.from_data(xs, ys, 'EUC_2D')

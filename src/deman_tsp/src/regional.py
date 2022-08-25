@@ -13,7 +13,7 @@ Y_FACTOR = 84000/242
 
 
 def Regional():
-    coordinatesFile = open('src/deman_tsp/laptop data/3.json')
+    coordinatesFile = open('src/deman_tsp/laptop data/1.json')
     coordinatesData = json.load(coordinatesFile)
 
     xs = [0]

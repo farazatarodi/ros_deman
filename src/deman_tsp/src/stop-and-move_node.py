@@ -35,7 +35,6 @@ def next_point_x(msg: Int32):
     global positionCounter
 
     if actualPosition >= pathX[positionCounter] - 150 and actualPosition <= pathX[positionCounter] + 150:
-        rate.sleep()
         positionBits[0] = True
     next_point()
 
@@ -47,7 +46,6 @@ def next_point_y(msg: Int32):
     global positionCounter
 
     if actualPosition >= pathY[positionCounter] - 200 and actualPosition <= pathY[positionCounter] + 200:
-        rate.sleep()
         positionBits[1] = True
     next_point()
 
@@ -59,7 +57,6 @@ def next_point_z(msg: Int32):
     global positionCounter
 
     if actualPosition >= pathZ[positionCounter] - 200 and actualPosition <= pathZ[positionCounter] + 200:
-        rate.sleep()
         positionBits[2] = True
     next_point()
 
@@ -71,7 +68,6 @@ def next_point_c(msg: Int32):
     global positionCounter
 
     if actualPosition >= pathC[positionCounter] - 200 and actualPosition <= pathC[positionCounter] + 200:
-        rate.sleep()
         positionBits[3] = True
     next_point()
 

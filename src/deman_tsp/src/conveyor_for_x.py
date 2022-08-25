@@ -21,7 +21,7 @@ def ConveyorForX():
     for point in coordinatesData:
         xs.append(0)
         ys.append(math.floor(point[1]*Y_FACTOR))
-        zs.append(0)
+        zs.append(point[2])
         cs.append(math.floor(point[0]*15810-11000000))
 
     path = list(range(0, len(xs)))

@@ -20,12 +20,12 @@ def next_point():
         if positionCounter < len(pathC)-1:
             positionCounter += 1
             rospy.loginfo(positionCounter)
-            rospy.loginfo(positionBits)
             positionBits = [False, False, False, False]
 
     pubCPosition.publish(pathC[positionCounter])
     pubYPosition.publish(pathY[positionCounter])
     pubZPosition.publish(pathZ[positionCounter])
+    pubXPosition.publish(0)
 
 
 def next_point_x(msg: Int32):
@@ -36,7 +36,7 @@ def next_point_x(msg: Int32):
 
     if actualPosition >= pathX[positionCounter] - 200 and actualPosition <= pathX[positionCounter] + 200:
         positionBits[0] = True
-        next_point()
+    next_point()
 
 
 def next_point_y(msg: Int32):
@@ -47,7 +47,7 @@ def next_point_y(msg: Int32):
 
     if actualPosition >= pathY[positionCounter] - 200 and actualPosition <= pathY[positionCounter] + 200:
         positionBits[1] = True
-        next_point()
+    next_point()
 
 
 def next_point_z(msg: Int32):
@@ -58,7 +58,7 @@ def next_point_z(msg: Int32):
 
     if actualPosition >= pathZ[positionCounter] - 200 and actualPosition <= pathZ[positionCounter] + 200:
         positionBits[2] = True
-        next_point()
+    next_point()
 
 
 def next_point_c(msg: Int32):
@@ -69,7 +69,7 @@ def next_point_c(msg: Int32):
 
     if actualPosition >= pathC[positionCounter] - 200 and actualPosition <= pathC[positionCounter] + 200:
         positionBits[3] = True
-        next_point()
+    next_point()
 
 
 if __name__ == '__main__':

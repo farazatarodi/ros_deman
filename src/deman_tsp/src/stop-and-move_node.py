@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
-from os import stat
-from socketserver import StreamRequestHandler
 import rospy
-from std_msgs.msg import Int32, String
+from std_msgs.msg import Int32
 from stop_and_move import StopAndMove
 
 positionCounter = 0
@@ -20,9 +18,9 @@ def next_point():
     if positionBits == [True, True, True, True]:
         if positionCounter < len(pathX)-1:
             positionCounter += 1
-            rospy.loginfo(positionCounter)
-            rospy.loginfo(positionBits)
             positionBits = [False, False, False, False]
+        else:
+            rospy.signal_shutdown('End of path')
 
     pubXPosition.publish(pathX[positionCounter])
     pubYPosition.publish(pathY[positionCounter])
@@ -37,8 +35,9 @@ def next_point_x(msg: Int32):
     global positionCounter
 
     if actualPosition >= pathX[positionCounter] - 150 and actualPosition <= pathX[positionCounter] + 150:
+        rate.sleep()
         positionBits[0] = True
-        next_point()
+    next_point()
 
 
 def next_point_y(msg: Int32):
@@ -48,8 +47,9 @@ def next_point_y(msg: Int32):
     global positionCounter
 
     if actualPosition >= pathY[positionCounter] - 200 and actualPosition <= pathY[positionCounter] + 200:
+        rate.sleep()
         positionBits[1] = True
-        next_point()
+    next_point()
 
 
 def next_point_z(msg: Int32):
@@ -59,8 +59,9 @@ def next_point_z(msg: Int32):
     global positionCounter
 
     if actualPosition >= pathZ[positionCounter] - 200 and actualPosition <= pathZ[positionCounter] + 200:
+        rate.sleep()
         positionBits[2] = True
-        next_point()
+    next_point()
 
 
 def next_point_c(msg: Int32):
@@ -70,12 +71,15 @@ def next_point_c(msg: Int32):
     global positionCounter
 
     if actualPosition >= pathC[positionCounter] - 200 and actualPosition <= pathC[positionCounter] + 200:
+        rate.sleep()
         positionBits[3] = True
-        next_point()
+    next_point()
 
 
 if __name__ == '__main__':
     rospy.init_node('tsp_node')
+
+    rate = rospy.Rate(2)
 
     pathX, pathY, pathZ, pathC = StopAndMove()
 

@@ -17,12 +17,12 @@ def StopAndMove():
 
     xs = [0]
     ys = [0]
-    zs = [0]
+    zs = [1000000]
     cs = [-11000000]
     for point in coordinatesData:
         xs.append(math.floor(point[0]*X_FACTOR))
         ys.append(math.floor(point[1]*Y_FACTOR))
-        zs.append(0)
+        zs.append(point[2])
         cs.append(-11000000)
 
     solver = TSPSolver.from_data(xs, ys, 'EUC_2D')

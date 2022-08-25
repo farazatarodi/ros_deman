@@ -16,8 +16,11 @@ def mode_callback(mode: Int16):
     client.write_registers(6, [low, high], unit=1)
 
 
-def position_callback(position: Int32):
-    highPose, lowPose = divmod(int(hex(position.data), 16), 0x10000)
+def position_callback(msg: Int32):
+    position = msg.data
+    if position < 0:
+        position = 2**32 + position
+    highPose, lowPose = divmod(int(hex(position), 16), 0x10000)
     client.write_registers(6, [lowPose, highPose], unit=1)
 
 
@@ -44,18 +47,13 @@ if __name__ == '__main__':
         result = client.read_holding_registers(6, 2, unit=1)
         rospy.loginfo('Home position: ' + str(result.registers))
 
-        client.write_registers(
-            12, [floor(config['acceleration']/ACCELERATION_CONSTANT), 0], unit=1)
-        result = client.read_holding_registers(12, 2, unit=1)
-        rospy.loginfo('Acceleration: ' + str(result.registers[0]))
-
         subMode = rospy.Subscriber('/mode', Int16, callback=mode_callback)
         subPosition = rospy.Subscriber(
             '/z_client/position', Int32, callback=position_callback)
         pubStatus = rospy.Publisher('/z_client/status', String, queue_size=10)
         pubActualPosition = rospy.Publisher(
             '/z_client/actual_position', Int32, queue_size=10)
-        rate = rospy.Rate(20)
+        rate = rospy.Rate(2)
 
         while not rospy.is_shutdown():
             response = client.read_holding_registers(70, 2, unit=1)

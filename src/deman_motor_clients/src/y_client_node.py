@@ -55,7 +55,7 @@ if __name__ == '__main__':
         pubStatus = rospy.Publisher('/y_client/status', String, queue_size=10)
         pubActualPosition = rospy.Publisher(
             '/y_client/actual_position', Int32, queue_size=10)
-        rate = rospy.Rate(20)
+        rate = rospy.Rate(2)
 
         while not rospy.is_shutdown():
             response = client.read_holding_registers(70, 2, unit=1)

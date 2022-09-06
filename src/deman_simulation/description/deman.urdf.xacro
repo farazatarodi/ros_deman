@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
+
+    <xacro:include filename="include.xacro" />
+
+    <link name="world"></link>
+
+    <joint name="base_joint" type="fixed">
+        <origin xyz="0 0 0.5" rpy="0 0 0"/>
+        <parent link="world"/>
+        <child link="base_link"/>        
+    </joint>
+
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="1.5 0.6 1" />
+            </geometry>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="1.5 0.6 1" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="30" x="1.5" y="0.6" z="1">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <joint name="y_joint" type="prismatic">
+        <origin xyz="0.37 -0.3 1" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="y_link"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="0" upper=".6" velocity="100" effort="100"/> 
+        <dynamics damping="10.0" friction="10.0" />
+    </joint>
+
+    <link name="y_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.74 0.065 0.065" />
+            </geometry>
+            <material name="green" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.74 0.065 0.065" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="1" x="0.74" y="0.065" z="0.065">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <joint name="x_joint" type="prismatic">
+        <origin xyz="-0.37 0.0525 0" rpy="0 0 0"/>
+        <parent link="y_link"/>
+        <child link="x_link"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="0" upper=".74" velocity="100" effort="100"/> 
+        <dynamics damping="10.0" friction="10.0" />
+    </joint>
+
+    <link name="x_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.04 0.04 0.065" />
+            </geometry>
+            <material name="red" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.04 0.04 0.065" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="1" x="0.04" y="0.04" z="0.065">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <joint name="z_joint" type="prismatic">
+        <origin xyz="0 0.04 0" rpy="0 0 0"/>
+        <parent link="x_link"/>
+        <child link="z_link"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-0.211" upper="0.211" velocity="100" effort="100"/>
+        <dynamics damping="10.0" friction="10.0" />
+    </joint>
+
+    <link name="z_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.04 0.04 0.422" />
+            </geometry>
+            <material name="blue" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.04 0.04 0.422" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="1" x="0.04" y="0.04" z="0.065">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <xacro:include filename="gazebo.xacro" />
+
+</robot>

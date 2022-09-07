@@ -17,6 +17,10 @@
         <color rgba="0 1 0 1"/>
     </material>
 
+    <material name="yellow">
+        <color rgba="0.5 0.5 0 1"/>
+    </material>
+
     <xacro:macro name="inertial_box" params="mass x y z *origin">
         <inertial>
             <xacro:insert_block name="origin"/>
